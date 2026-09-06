@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VE2C TA Vocabulary List | Youth College</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Poppins & Noto Sans HK) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Noto+Sans+HK:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#1E293B',
+              blue: '#2563EB',
+              yellow: '#F59E0B',
+              pink: '#EC4899',
+              green: '#10B981',
+              purple: '#8B5CF6'
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'Noto Sans HK', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #F8FAFC; font-family: 'Poppins', 'Noto Sans HK', sans-serif; }
+    .anime-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .anime-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(37, 99, 235, 0.3); }
+    .badge-gradient { background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); }
+    .glass-nav { backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.9); }
+    /* Hide scrollbar for clean UI */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-50 glass-nav border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('study')">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center text-white font-black text-xl shadow-md">
+            VE
+          </div>
+          <div>
+            <h1 class="text-lg font-bold leading-tight text-slate-900">VE2C TA Vocabulary List</h1>
+            <p class="text-xs text-emerald-600 font-semibold">Youth College • Lovely Animal Friends Edition 🐾</p>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex space-x-2">
+          <button id="nav-study" onclick="switchTab('study')" class="px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2 bg-emerald-600 text-white shadow-sm">
+            <i class="fa-solid fa-book-open"></i> <span class="hidden sm:inline">Vocabulary Flashcards</span>
+          </button>
+          <button id="nav-quiz" onclick="switchTab('quiz')" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+            <i class="fa-solid fa-paw"></i> <span class="hidden sm:inline">Animal Challenge Test</span>
+          </button>
+          <button id="nav-leaderboard" onclick="switchTab('leaderboard')" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+            <i class="fa-solid fa-trophy"></i> <span class="hidden sm:inline">Scoreboard</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ================= SECTION 1: VOCABULARY STUDY SECTION ================= -->
+    <section id="section-study" class="space-y-6">
+      <!-- Banner -->
+      <div class="bg-gradient-to-r from-emerald-800 via-teal-700 to-emerald-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl">
+          <span class="bg-amber-400 text-slate-900 text-xs font-black uppercase px-3 py-1 rounded-full tracking-wide">VE2C TA Vocabulary List</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold mt-3 leading-snug">Boost Your Vocabulary with Lovely Animal Friends! 🐻🐾</h2>
+          <p class="text-emerald-100 text-sm sm:text-base mt-2">Master key adjectives, prepositions, and verbs with Barnaby Bear, Penny Panda, Felix Fox, Ollie Owl, and cute cartoon companions!</p>
+        </div>
+        <div class="absolute right-4 bottom-0 opacity-20 pointer-events-none hidden md:block">
+          <i class="fa-solid fa-paw text-[180px] text-amber-300"></i>
+        </div>
+      </div>
+
+      <!-- Controls & Search -->
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <!-- Category Filter -->
+        <div class="flex flex-wrap gap-2 w-full md:w-auto">
+          <button onclick="filterCategory('all')" class="cat-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-900 text-white transition" data-cat="all">All Words (88)</button>
+          <button onclick="filterCategory('activity')" class="cat-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition" data-cat="activity">Describing Activity</button>
+          <button onclick="filterCategory('people')" class="cat-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition" data-cat="people">Describing People</button>
+          <button onclick="filterCategory('verbs')" class="cat-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition" data-cat="verbs">Action Verbs</button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-72">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search word or Chinese..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div id="vocabCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamic Cards Inserted Here by JS -->
+      </div>
+    </section>
+
+    <!-- ================= SECTION 2: GAME TEST SESSION ================= -->
+    <section id="section-quiz" class="hidden max-w-3xl mx-auto space-y-6">
+      
+      <!-- Quiz Start Screen -->
+      <div id="quiz-start-screen" class="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-lg space-y-6">
+        <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
+          <i class="fa-solid fa-paw"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-black text-slate-900">Vocational Animal Friends Quiz</h2>
+          <p class="text-slate-600 text-sm mt-2 max-w-md mx-auto">Test your mastery of workplace vocabulary with 10 random cute animal-themed questions! Enter your name to record your result on the college leaderboard.</p>
+        </div>
+
+        <div class="max-w-xs mx-auto text-left space-y-2">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Student Name / ID</label>
+          <input type="text" id="studentNameInput" placeholder="e.g. Alex Chan (YC-CW)" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-medium focus:ring-2 focus:ring-emerald-500 outline-none text-sm">
+        </div>
+
+        <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl shadow-lg transition transform active:scale-95">
+          <i class="fa-solid fa-play mr-2"></i> Start Challenge Now
+        </button>
+      </div>
+
+      <!-- Active Quiz Interface -->
+      <div id="quiz-active-screen" class="hidden bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
+        <!-- Quiz Header -->
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <span class="bg-emerald-600 text-xs font-bold px-2.5 py-1 rounded-md" id="question-tracker">Question 1/10</span>
+            <span class="text-xs text-slate-400" id="quizStudentDisplay">Student</span>
+          </div>
+          <div class="text-amber-400 font-bold text-sm flex items-center gap-1">
+            <i class="fa-solid fa-star"></i> Score: <span id="quizScore">0</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-100 h-2">
+          <div id="quizProgressBar" class="bg-emerald-600 h-2 transition-all duration-300" style="width: 10%"></div>
+        </div>
+
+        <!-- Question Body -->
+        <div class="p-6 sm:p-8 space-y-6">
+          <div class="space-y-3">
+            <span id="quizAnimeTag" class="inline-block bg-emerald-100 text-emerald-800 font-bold text-xs px-3 py-1 rounded-full">
+              🐾 Barnaby Bear Story
+            </span>
+            <h3 id="quizQuestionText" class="text-lg sm:text-xl font-bold leading-relaxed text-slate-900">
+              Loading Question...
+            </h3>
+          </div>
+
+          <!-- Options Grid -->
+          <div id="quizOptionsContainer" class="grid grid-cols-1 gap-3">
+            <!-- Dynamic Option Buttons -->
+          </div>
+
+          <!-- Feedback Box -->
+          <div id="quizFeedback" class="hidden p-4 rounded-xl border font-semibold text-sm"></div>
+
+          <!-- Next Button -->
+          <div class="flex justify-end">
+            <button id="quizNextBtn" onclick="nextQuestion()" class="hidden px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition">
+              Next Question <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Result Screen -->
+      <div id="quiz-result-screen" class="hidden bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-xl space-y-6">
+        <div id="resultBadge" class="w-24 h-24 rounded-full flex items-center justify-center mx-auto text-4xl shadow-lg bg-amber-400 text-white">
+          👑
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-black text-slate-900" id="resultTitle">Great Job!</h2>
+          <p class="text-slate-600 text-sm mt-1" id="resultSub">Your test response has been evaluated.</p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 max-w-sm mx-auto space-y-3">
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-500 font-medium">Final Score:</span>
+            <span class="font-extrabold text-emerald-600 text-lg" id="finalScoreDisplay">80 / 100</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-500 font-medium">Rank Achieved:</span>
+            <span class="font-bold text-slate-800" id="finalRankDisplay">Wise Owl Expert 🦉</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-3">
+          <button onclick="switchTab('leaderboard')" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-xl text-sm transition">
+            <i class="fa-solid fa-trophy mr-1"></i> View Leaderboard
+          </button>
+          <button onclick="resetQuiz()" class="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-sm transition">
+            <i class="fa-solid fa-rotate-right mr-1"></i> Try Again
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= SECTION 3: LEADERBOARD ================= -->
+    <section id="section-leaderboard" class="hidden max-w-4xl mx-auto space-y-6">
+      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-md">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-2xl font-black text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-trophy text-amber-500"></i> Youth College Leaderboard
+            </h2>
+            <p class="text-slate-500 text-sm mt-1">Top performing students in the Vocational English Animal Challenge</p>
+          </div>
+          <button onclick="clearLeaderboard()" class="text-xs text-red-500 hover:text-red-700 font-medium border border-red-200 px-3 py-1.5 rounded-lg transition self-start sm:self-auto">
+            <i class="fa-solid fa-trash mr-1"></i> Reset Local Scores
+          </button>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200 text-xs uppercase font-extrabold text-slate-400 bg-slate-50">
+                <th class="py-3 px-4">Rank</th>
+                <th class="py-3 px-4">Student Name</th>
+                <th class="py-3 px-4">Score</th>
+                <th class="py-3 px-4">Animal Title</th>
+                <th class="py-3 px-4">Date</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody" class="divide-y divide-slate-100 text-sm font-medium">
+              <!-- Dynamic Rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <p class="font-semibold text-slate-300">Vocational English (VE2C) Interactive Learning Module • Youth College VTC</p>
+      <p>Designed for Vocational Students in Hong Kong • Lovely animal cartoon character illustrations are provided for educational contextual memory enhancement.</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // ================= VOCABULARY DATABASE =================
+    const vocabularyData = [
+      // CATEGORY: Describing Activity (Adjectives)
+      { id: 1, word: "accessible", category: "activity", ipa: "/əkˈses.ə.bəl/", chinese: "易於使用的 / 無障礙的", animal: "Barnaby Bear 🐻", avatar: "bear", context: "Barnaby Bear built a smooth wooden ramp so the forest playground is accessible to all his animal friends.", sentence: "The new computer room is accessible to all students." },
+      { id: 2, word: "additional", category: "activity", ipa: "/əˈdɪʃ.ən.əl/", chinese: "額外的 / 附加的", animal: "Penny Panda 🐼", avatar: "panda", context: "Penny Panda packs an additional bamboo sandwich in her lunchbox for long forest walks.", sentence: "If you need additional help with homework, ask your teacher." },
+      { id: 3, word: "advanced", category: "activity", ipa: "/ədˈvɑːnst/", chinese: "先進的 / 高級的", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl uses an advanced star-gazing telescope to map constellations across the woodland sky.", sentence: "The college installed advanced software for computer science students." },
+      { id: 4, word: "advantageous", category: "activity", ipa: "/ˌæd.vənˈteɪ.dʒəs/", chinese: "有利的 / 有好處的", animal: "Felix Fox 🦊", avatar: "fox", context: "Felix Fox knows that having sharp eyesight is advantageous when searching for sweet wild berries.", sentence: "Learning English is advantageous for your future career." },
+      { id: 5, word: "affordable", category: "activity", ipa: "/əˈfɔː.də.bəl/", chinese: "負擔得起的 / 實惠的", animal: "Benny Bunny 🐰", avatar: "bunny", context: "Benny Bunny buys affordable crunchy carrots at the cheerful morning market.", sentence: "The school lunch set is cheap and affordable." },
+      { id: 6, word: "attractive", category: "activity", ipa: "/əˈtræk.tɪv/", chinese: "吸引人的 / 有魅力的", animal: "Pippa Penguin 🐧", avatar: "penguin", context: "Pippa Penguin wears an attractive bright red scarf that stands out on the ice.", sentence: "This colorful poster looks very attractive on the classroom wall." },
+      { id: 7, word: "caring", category: "activity", ipa: "/ˈkeə.rɪŋ/", chinese: "關懷的 / 體貼的", animal: "Kiki Koala 🐨", avatar: "koala", context: "Kiki Koala is a caring friend who always offers cozy hugs and warm tea to sick friends.", sentence: "The nursing assistant is very caring towards elderly patients." },
+      { id: 8, word: "challenging", category: "activity", ipa: "/ˈtʃæl.ɪn.dʒɪŋ/", chinese: "具挑戰性的", animal: "Leo Lion 🦁", avatar: "lion", context: "Climbing to the top of Sun Valley Rock was a challenging trek for Leo Lion.", sentence: "The engineering quiz yesterday was quite challenging." },
+      { id: 9, word: "charitable", category: "activity", ipa: "/ˈtʃær.ɪ.tə.bəl/", chinese: "慈善的 / 樂善好施的", animal: "Bruno Puppy 🐶", avatar: "puppy", context: "Bruno Puppy shares his favorite dog biscuits with needy puppies at the animal shelter.", sentence: "The students organized a charitable bake sale for charity." },
+      { id: 10, word: "collaborative", category: "activity", ipa: "/kəˈlæb.ə.rə.tɪv/", chinese: "合作的 / 協作的", animal: "Bella Bee 🐝", avatar: "bee", context: "Bella Bee and her hive work on a collaborative honeycomb building project.", sentence: "We worked together on a collaborative team project." },
+      { id: 11, word: "convenient", category: "activity", ipa: "/kənˈviː.ni.ənt/", chinese: "方便的 / 近便的", animal: "Chester Cat 🐱", avatar: "cat", context: "Chester Cat loves the convenient cat flap door that lets him come inside anytime.", sentence: "Taking the MTR to school is fast and convenient." },
+      { id: 12, word: "cost-effective", category: "activity", ipa: "/ˌkɒst.ɪˈfek.tɪv/", chinese: "划算的 / 性價比高的", animal: "Milo Monkey 🐒", avatar: "monkey", context: "Milo Monkey buys bananas in big bunches because it is cost-effective for his family.", sentence: "Buying stationery in bulk packs is cost-effective." },
+      { id: 13, word: "creative", category: "activity", ipa: "/kriːˈeɪ.tɪv/", chinese: "有創意的 / 創造性的", animal: "Ellie Elephant 🐘", avatar: "elephant", context: "Ellie Elephant paints creative water portraits using her trunk as a paintbrush.", sentence: "The design student created a very creative logo." },
+      { id: 14, word: "cultural", category: "activity", ipa: "/ˈkʌl.tʃər.əl/", chinese: "文化的 / 文化上的", animal: "Sammy Squirrel 🐿️", avatar: "squirrel", context: "Sammy Squirrel performs traditional woodland dances during the annual cultural festival.", sentence: "We learned about different cultural traditions in class." },
+      { id: 15, word: "diverse", category: "activity", ipa: "/daɪˈvɜːs/", chinese: "多元化的 / 多樣的", animal: "Toby Turtle 🐢", avatar: "turtle", context: "Toby Turtle meets diverse sea creatures with different colors during his ocean travels.", sentence: "The college has a diverse student community with many talents." },
+      { id: 16, word: "educational", category: "activity", ipa: "/ˌedʒ.ʊˈkeɪ.ʃən.əl/", chinese: "具教育意義的", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl hosts educational nature walks to teach young chicks about forest trees.", sentence: "Visiting the science museum was fun and educational." },
+      { id: 17, word: "effective in", category: "activity", ipa: "/ɪˈfek.tɪv ɪn/", chinese: "在…方面有效的", animal: "Hopper Frog 🐸", avatar: "frog", context: "Hopper Frog is effective in catching mosquitoes near the pond.", sentence: "This interactive software is effective in improving vocabulary." },
+      { id: 18, word: "efficient", category: "activity", ipa: "/ɪˈfɪʃ.ənt/", chinese: "高效率的", animal: "Pippin Piglet 🐷", avatar: "piglet", context: "Pippin Piglet built an efficient garden sprinkler to water all flowers in five minutes.", sentence: "The new sorting machine makes bakery work very efficient." },
+      { id: 19, word: "elderly-friendly", category: "activity", ipa: "/ˈel.dəl.i ˈfrend.li/", chinese: "長者友善的", animal: "Hammy Hamster 🐹", avatar: "hamster", context: "Hammy Hamster designed an elderly-friendly soft bench for senior hamsters.", sentence: "This community center has elderly-friendly handrails." },
+      { id: 20, word: "engaging", category: "activity", ipa: "/ɪnˈɡeɪ.dʒɪŋ/", chinese: "引人入勝的 / 有吸引力的", animal: "Gigi Giraffe 🦒", avatar: "giraffe", context: "Gigi Giraffe tells engaging puppet stories to young forest animals every evening.", sentence: "The teacher gave an engaging presentation with interactive games." },
+      { id: 21, word: "enriching", category: "activity", ipa: "/ɪnˈrɪtʃ.ɪŋ/", chinese: "豐富知識/經驗的", animal: "Rocky Raccoon 🦝", avatar: "racoon", context: "Rocky Raccoon finds reading ancient treasure maps an enriching activity for his mind.", sentence: "Volunteering at the hospital was an enriching experience." },
+      { id: 22, word: "enjoyable", category: "activity", ipa: "/ɪnˈdʒɔɪ.ə.bəl/", chinese: "令人愉快的", animal: "Barnaby Bear 🐻", avatar: "bear", context: "Barnaby Bear enjoys an enjoyable afternoon picnic under the sunny oak tree.", sentence: "Playing basketball with classmates is very enjoyable." },
+      { id: 23, word: "environmentally-friendly", category: "activity", ipa: "/ɪn.vaɪ.rən.men.təl.i ˈfrend.li/", chinese: "環保的 / 生態友好的", animal: "Penny Panda 🐼", avatar: "panda", context: "Penny Panda uses environmentally-friendly bamboo cups instead of plastic.", sentence: "Using reusable water bottles is environmentally-friendly." },
+      { id: 24, word: "exciting", category: "activity", ipa: "/ɪkˈsaɪ.tɪŋ/", chinese: "令人興奮的", animal: "Felix Fox 🦊", avatar: "fox", context: "Felix Fox went on an exciting treasure hunt inside the hidden crystal cave.", sentence: "Going on a field trip is an exciting event for students." },
+      { id: 25, word: "family-friendly", category: "activity", ipa: "/ˈfæm.əl.i ˈfrend.li/", chinese: "適合全家人的", animal: "Benny Bunny 🐰", avatar: "bunny", context: "Benny Bunny organizes family-friendly spring fair games for rabbits of all ages.", sentence: "This park offers family-friendly rides and facilities." },
+      { id: 26, word: "flexible", category: "activity", ipa: "/ˈflek.sə.bəl/", chinese: "靈活的 / 有彈性的", animal: "Pippa Penguin 🐧", avatar: "penguin", context: "Pippa Penguin stays flexible when practicing ice skating jump routines.", sentence: "A flexible work schedule allows staff to balance study time." },
+      { id: 27, word: "fun", category: "activity", ipa: "/fʌn/", chinese: "有趣的 / 歡樂的", animal: "Bruno Puppy 🐶", avatar: "puppy", context: "Bruno Puppy loves playing a fun game of catch in the green meadow.", sentence: "Studying English with card games is very fun." },
+      { id: 28, word: "green", category: "activity", ipa: "/ɡriːn/", chinese: "綠色環保的", animal: "Kiki Koala 🐨", avatar: "koala", context: "Kiki Koala promotes green living by planting fresh eucalyptus trees.", sentence: "Our school encourages green energy initiatives." },
+      { id: 29, word: "hands-on", category: "activity", ipa: "/ˌhændzˈɒn/", chinese: "親自動手的 / 實踐的", animal: "Ellie Elephant 🐘", avatar: "elephant", context: "Ellie Elephant enjoys hands-on pottery making using clay from the riverbank.", sentence: "The workshop offers hands-on automotive repair practice." },
+      { id: 30, word: "health-oriented", category: "activity", ipa: "/helθ ˈɔː.ri.en.tɪd/", chinese: "以健康為導向的", animal: "Leo Lion 🦁", avatar: "lion", context: "Leo Lion prepares health-oriented fruit salad bowls for morning workout energy.", sentence: "The cafeteria now serves health-oriented vegetable meals." },
+      { id: 31, word: "inclusive", category: "activity", ipa: "/ɪnˈkluː.sɪv/", chinese: "包容的 / 兼收並蓄的", animal: "Sammy Squirrel 🐿️", avatar: "squirrel", context: "Sammy Squirrel hosts an inclusive forest party where birds, mammals, and frogs join.", sentence: "Our campus promotes an inclusive learning environment for everyone." },
+      { id: 32, word: "inspiring", category: "activity", ipa: "/ɪnˈspaɪə.rɪŋ/", chinese: "鼓舞人心的 / 啟發靈感的", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl gave an inspiring graduation speech to encourage young fledglings.", sentence: "The guest speaker's career story was truly inspiring." },
+      { id: 33, word: "interactive", category: "activity", ipa: "/ˌɪn.təˈræk.tɪv/", chinese: "互動式的", animal: "Milo Monkey 🐒", avatar: "monkey", context: "Milo Monkey built an interactive jungle gym with ropes and swings for young monkeys.", sentence: "The online learning platform features interactive quizzes." },
+      { id: 34, word: "interesting", category: "activity", ipa: "/ˈɪn.tre.stɪŋ/", chinese: "有趣的 / 引人注意的", animal: "Chester Cat 🐱", avatar: "cat", context: "Chester Cat found an interesting glowing bug in the garden at dusk.", sentence: "The biology experiment revealed interesting results." },
+      { id: 35, word: "local", category: "activity", ipa: "/ˈləʊ.kəl/", chinese: "當地的 / 本地的", animal: "Barnaby Bear 🐻", avatar: "bear", context: "Barnaby Bear supports local honey bee farmers in his forest village.", sentence: "We bought fresh bread from the local bakery." },
+      { id: 36, word: "long-term", category: "activity", ipa: "/ˌlɒŋˈtɜːm/", chinese: "長期的", animal: "Toby Turtle 🐢", avatar: "turtle", context: "Toby Turtle sets a long-term goal of exploring all seven oceans across his long life.", sentence: "Saving money monthly is a smart long-term financial strategy." },
+      { id: 37, word: "low-income", category: "activity", ipa: "/ˌləʊˈɪn.kʌm/", chinese: "低收入的", animal: "Penny Panda 🐼", avatar: "panda", context: "Penny Panda delivers free bamboo soups to support low-income animal families.", sentence: "The subsidy scheme helps low-income students purchase textbooks." },
+      { id: 38, word: "meaningful", category: "activity", ipa: "/ˈmiː.nɪŋ.fəl/", chinese: "有意義的", animal: "Kiki Koala 🐨", avatar: "koala", context: "Kiki Koala spent a meaningful afternoon helping rebuild a bird's nest after the storm.", sentence: "Doing community service is a meaningful experience." },
+      { id: 39, word: "memorable", category: "activity", ipa: "/ˈmem.ər.ə.bəl/", chinese: "難忘的 / 值得紀念的", animal: "Felix Fox 🦊", avatar: "fox", context: "Felix Fox captured a memorable photo of the northern lights with his forest friends.", sentence: "The graduation ceremony was a memorable day for all of us." },
+      { id: 40, word: "modern", category: "activity", ipa: "/ˈmɒd.ən/", chinese: "現代化的", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl built a modern solar-powered treehouse with fast internet.", sentence: "The new workshop is equipped with modern diagnostic tools." },
+      { id: 41, word: "motivating", category: "activity", ipa: "/ˈməʊ.tɪ.veɪ.tɪŋ/", chinese: "具激勵作用的", animal: "Leo Lion 🦁", avatar: "lion", context: "Leo Lion offers motivating cheers that boost team spirit before the sports race.", sentence: "Encouragement from instructors is very motivating for trainees." },
+      { id: 42, word: "multi-purpose", category: "activity", ipa: "/ˌmʌl.tiˈpɜː.pəs/", chinese: "多用途的", animal: "Ellie Elephant 🐘", avatar: "elephant", context: "Ellie Elephant carries a multi-purpose basket that works as a cart and a picnic table.", sentence: "This multi-purpose hall is used for sports and assemblies." },
+      { id: 43, word: "multicultural", category: "activity", ipa: "/ˌmʌl.tiˈkʌl.tʃər.əl/", chinese: "多種文化的", animal: "Pippa Penguin 🐧", avatar: "penguin", context: "Pippa Penguin loves attending the multicultural animal food exchange festival.", sentence: "Hong Kong is a vibrant multicultural city." },
+      { id: 44, word: "practical", category: "activity", ipa: "/ˈpræk.tɪ.kəl/", chinese: "實用的 / 切合實際的", animal: "Benny Bunny 🐰", avatar: "bunny", context: "Benny Bunny gives practical gardening advice on how to grow big juicy carrots.", sentence: "The vocational course provides practical nursing skills." },
+      { id: 45, word: "purposeful", category: "activity", ipa: "/ˈpɜː.pəs.fəl/", chinese: "有目的的 / 堅定的", animal: "Bruno Puppy 🐶", avatar: "puppy", context: "Bruno Puppy trains every day with a purposeful heart to become a rescue dog.", sentence: "She took purposeful steps toward passing her licensure exam." },
+      { id: 46, word: "recreational", category: "activity", ipa: "/ˌrek.riˈeɪ.ʃən.əl/", chinese: "消遣的 / 娛樂的", animal: "Milo Monkey 🐒", avatar: "monkey", context: "Milo Monkey enjoys recreational canopy swinging during his afternoon break.", sentence: "Playing badminton is a popular recreational activity." },
+      { id: 47, word: "rewarding", category: "activity", ipa: "/rɪˈwɔː.dɪŋ/", chinese: "有酬報的 / 值得的", animal: "Bella Bee 🐝", avatar: "bee", context: "Bella Bee finds gathering golden honey after a long day rewarding.", sentence: "Completing a difficult coding project is deeply rewarding." },
+      { id: 48, word: "resourceful", category: "activity", ipa: "/rɪˈzɔː.sfəl/", chinese: "足智多謀的", animal: "Rocky Raccoon 🦝", avatar: "racoon", context: "Rocky Raccoon is resourceful and can fix any broken toy using leftover scraps.", sentence: "A resourceful technician can solve mechanical problems quickly." },
+      { id: 49, word: "safe", category: "activity", ipa: "/seɪf/", chinese: "安全的 / 危害小的", animal: "Hammy Hamster 🐹", avatar: "hamster", context: "Hammy Hamster padded his wheel with soft cotton to make running completely safe.", sentence: "Wear protective goggles to keep your eyes safe in the workshop." },
+      { id: 50, word: "skill-building", category: "activity", ipa: "/skɪl ˈbɪl.dɪŋ/", chinese: "技能提升的", animal: "Pippin Piglet 🐷", avatar: "piglet", context: "Pippin Piglet takes skill-building cooking classes to master baking apple pies.", sentence: "Youth College provides skill-building vocational programs." },
+      { id: 51, word: "spacious", category: "activity", ipa: "/ˈspeɪ.ʃəs/", chinese: "寬敞的", animal: "Barnaby Bear 🐻", avatar: "bear", context: "Barnaby Bear built a spacious wooden den with plenty of room for guests.", sentence: "The new campus library is bright and spacious." },
+      { id: 52, word: "supportive", category: "activity", ipa: "/səˈpɔː.tɪv/", chinese: "給予支持的 / 鼓勵的", animal: "Kiki Koala 🐨", avatar: "koala", context: "Kiki Koala is always supportive when her friends practice public speaking.", sentence: "We have supportive teachers who help us succeed." },
+      { id: 53, word: "sustainable", category: "activity", ipa: "/səˈsteɪ.nə.bəl/", chinese: "永續的 / 可持續的", animal: "Penny Panda 🐼", avatar: "panda", context: "Penny Panda practices sustainable bamboo harvesting so forest plants keep growing.", sentence: "Recycling paper is essential for sustainable development." },
+      { id: 54, word: "time-consuming", category: "activity", ipa: "/ˈtaɪm.kənˌsjuː.mɪŋ/", chinese: "耗時的 / 浪費時間的", animal: "Toby Turtle 🐢", avatar: "turtle", context: "Toby Turtle knows that crawling across the big desert can be time-consuming.", sentence: "Formatting large data spreadsheets manually is time-consuming." },
+      { id: 55, word: "upcoming", category: "activity", ipa: "/ˈʌpˌkʌm.ɪŋ/", chinese: "即將來臨的", animal: "Felix Fox 🦊", avatar: "fox", context: "Felix Fox prepares his cozy winter coat for the upcoming snow season.", sentence: "Students are studying hard for the upcoming final exams." },
+      { id: 56, word: "unique", category: "activity", ipa: "/juːˈniːk/", chinese: "獨特的 / 唯一的", animal: "Gigi Giraffe 🦒", avatar: "giraffe", context: "Gigi Giraffe has a unique spot pattern on her fur that no other giraffe shares.", sentence: "Each student brings unique skills to the team." },
+      { id: 57, word: "well-equipped", category: "activity", ipa: "/ˌwel.ɪˈkwɪpt/", chinese: "設備齊全的", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl's study room is well-equipped with reference books, globes, and maps.", sentence: "The vocational training centre is well-equipped with modern machinery." },
+
+      // CATEGORY: Describing People (Adjective + Preposition)
+      { id: 58, word: "aware of", category: "people", ipa: "/əˈweər ɒv/", chinese: "意識到 / 注意到", animal: "Felix Fox 🦊", avatar: "fox", context: "Felix Fox is always aware of rustling leaves behind him while walking.", sentence: "Staff must be aware of safety regulations in the laboratory." },
+      { id: 59, word: "based on", category: "people", ipa: "/beɪst ɒn/", chinese: "基於 / 以…為基礎", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl's weather forecast is based on careful wind barometric readings.", sentence: "This project proposal is based on market research." },
+      { id: 60, word: "curious about", category: "people", ipa: "/ˈkjʊə.ri.əs əˈbaʊt/", chinese: "對…感到好奇", animal: "Chester Cat 🐱", avatar: "cat", context: "Chester Cat is curious about what lies inside the colorful wrapped gift box.", sentence: "Engineering students are curious about how new engines work." },
+      { id: 61, word: "eager to", category: "people", ipa: "/ˈiː.ɡər tuː/", chinese: "渴望做… / 熱切於", animal: "Benny Bunny 🐰", avatar: "bunny", context: "Benny Bunny is eager to start planting his spring flower seeds today.", sentence: "Fresh graduates are eager to learn new workplace skills." },
+      { id: 62, word: "enthusiastic about", category: "people", ipa: "/ɪnˌθjuː.ziˈæs.tɪk əˈbaʊt/", chinese: "對…熱情的", animal: "Bruno Puppy 🐶", avatar: "puppy", context: "Bruno Puppy is enthusiastic about playing frisbee with his human friends.", sentence: "The team is enthusiastic about launching the new app." },
+      { id: 63, word: "experienced in", category: "people", ipa: "/ɪkˈspɪə.ri.ənst ɪn/", chinese: "在…方面富有經驗的", animal: "Barnaby Bear 🐻", avatar: "bear", context: "Barnaby Bear is highly experienced in catching salmon in fast river streams.", sentence: "Our senior technician is experienced in electrical wiring." },
+      { id: 64, word: "familiar with", category: "people", ipa: "/fəˈmɪl.i.ər wɪð/", chinese: "對…熟悉的", animal: "Milo Monkey 🐒", avatar: "monkey", context: "Milo Monkey is familiar with every tree branch path in the rainforest.", sentence: "Are you familiar with operating this printer machine?" },
+      { id: 65, word: "fond of", category: "people", ipa: "/fɒnd ɒv/", chinese: "喜愛 / 喜歡", animal: "Penny Panda 🐼", avatar: "panda", context: "Penny Panda is fond of munching sweet tender bamboo shoots.", sentence: "She is fond of designing digital graphics in her free time." },
+      { id: 66, word: "focused on", category: "people", ipa: "/ˈfəʊ.kəst ɒn/", chinese: "專注於…的", animal: "Leo Lion 🦁", avatar: "lion", context: "Leo Lion stays focused on practicing his roar for the morning forest call.", sentence: "Students should stay focused on their exam preparation." },
+      { id: 67, word: "interested in", category: "people", ipa: "/ˈɪn.tre.stɪd ɪn/", chinese: "對…感興趣的", animal: "Pippa Penguin 🐧", avatar: "penguin", context: "Pippa Penguin is interested in studying underwater coral reefs.", sentence: "I am interested in applying for the IT diploma program." },
+      { id: 68, word: "keen on", category: "people", ipa: "/kiːn ɒn/", chinese: "熱衷於…的", animal: "Sammy Squirrel 🐿️", avatar: "squirrel", context: "Sammy Squirrel is keen on collecting shiny acorns for winter storage.", sentence: "He is keen on learning automotive engineering." },
+      { id: 69, word: "proud of", category: "people", ipa: "/praʊd ɒv/", chinese: "為…感到自豪的", animal: "Kiki Koala 🐨", avatar: "koala", context: "Kiki Koala is proud of her friends for winning the forest clean-up trophy.", sentence: "Parents are proud of their children's graduation achievements." },
+      { id: 70, word: "responsible for", category: "people", ipa: "/rɪˈspɒn.sə.bəl fɔː/", chinese: "對…負責的", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl is responsible for ringing the forest clock tower bell every evening.", sentence: "The project manager is responsible for keeping the schedule on time." },
+      { id: 71, word: "satisfied with", category: "people", ipa: "/ˈsæt.ɪs.faɪd wɪð/", chinese: "對…滿意的", animal: "Hammy Hamster 🐹", avatar: "hamster", context: "Hammy Hamster feels satisfied with his cozy newly arranged bedding.", sentence: "The supervisor was satisfied with the team's presentation." },
+      { id: 72, word: "suitable for", category: "people", ipa: "/ˈsuː.tə.bəl fɔː/", chinese: "適合…的", animal: "Pippin Piglet 🐷", avatar: "piglet", context: "Pippin Piglet's recipe is suitable for beginner bakers in class.", sentence: "This introductory course is suitable for new students." },
+
+      // CATEGORY: Action Verbs
+      { id: 73, word: "accommodate", category: "verbs", ipa: "/əˈkɒm.ə.deɪt/", chinese: "容納 / 提供住宿 / 配合", animal: "Barnaby Bear 🐻", avatar: "bear", context: "Barnaby Bear's cabin can accommodate ten friends during winter snowstorms.", sentence: "The conference room can accommodate up to 50 participants." },
+      { id: 74, word: "aim", category: "verbs", ipa: "/eɪm/", chinese: "旨在 / 以…為目標", animal: "Felix Fox 🦊", avatar: "fox", context: "Felix Fox aims to complete his map of secret forest shortcuts by winter.", sentence: "We aim to deliver excellent customer service." },
+      { id: 75, word: "attend", category: "verbs", ipa: "/əˈtend/", chinese: "出席 / 參加", animal: "Bella Bee 🐝", avatar: "bee", context: "Bella Bee attends every morning hive safety briefing before flying out.", sentence: "Please attend the mandatory safety orientation tomorrow." },
+      { id: 76, word: "bring", category: "verbs", ipa: "/brɪŋ/", chinese: "帶來 / 攜帶", animal: "Bruno Puppy 🐶", avatar: "puppy", context: "Bruno Puppy brings warm slippers to his owner every morning.", sentence: "Remember to bring your identity card and admission form." },
+      { id: 77, word: "collect", category: "verbs", ipa: "/kəˈlekt/", chinese: "收集 / 聚集", animal: "Sammy Squirrel 🐿️", avatar: "squirrel", context: "Sammy Squirrel loves to collect colorful autumn maple leaves.", sentence: "The team will collect feedback from customers." },
+      { id: 78, word: "consider", category: "verbs", ipa: "/kənˈsɪd.ər/", chinese: "考慮 / 斟酌", animal: "Ollie Owl 🦉", avatar: "owl", context: "Ollie Owl considers all options carefully before making forest decisions.", sentence: "Please consider all factors before choosing a major." },
+      { id: 79, word: "confirm", category: "verbs", ipa: "/kənˈfɜːm/", chinese: "確認 / 證實", animal: "Chester Cat 🐱", avatar: "cat", context: "Chester Cat meows to confirm that his dinner dish is ready.", sentence: "Please send an email to confirm your attendance." },
+      { id: 80, word: "contact", category: "verbs", ipa: "/ˈkɒn.tækt/", chinese: "聯絡 / 聯繫", animal: "Pippa Penguin 🐧", avatar: "penguin", context: "Pippa Penguin uses radio walkie-talkies to contact ice rescue patrols.", sentence: "You can contact the student affairs office for guidance." },
+      { id: 81, word: "donate", category: "verbs", ipa: "/dəʊˈneɪt/", chinese: "捐贈 / 捐獻", animal: "Penny Panda 🐼", avatar: "panda", context: "Penny Panda donates surplus bamboo sprouts to the community food bank.", sentence: "Students donate old books to the college library." },
+      { id: 82, word: "encourage", category: "verbs", ipa: "/ɪnˈkʌr.ɪdʒ/", chinese: "鼓勵 / 激勵", animal: "Kiki Koala 🐨", avatar: "koala", context: "Kiki Koala encourages young joeys to try climbing small trees safely.", sentence: "Teachers encourage students to express their ideas freely." },
+      { id: 83, word: "join", category: "verbs", ipa: "/dʒɔɪn/", chinese: "加入 / 參加", animal: "Milo Monkey 🐒", avatar: "monkey", context: "Milo Monkey invites new friends to join the jungle band.", sentence: "You are welcome to join our English conversation club." },
+      { id: 84, word: "organise", category: "verbs", ipa: "/ˈɔː.ɡən.aɪz/", chinese: "組織 / 籌劃", animal: "Ellie Elephant 🐘", avatar: "elephant", context: "Ellie Elephant helps organise the annual forest sports day.", sentence: "We need to organise the files into proper categories." },
+      { id: 85, word: "prepare", category: "verbs", ipa: "/prɪˈpeər/", chinese: "準備 / 預備", animal: "Pippin Piglet 🐷", avatar: "piglet", context: "Pippin Piglet prepares fresh fruit smoothies for morning breakfast.", sentence: "Chefs prepare all ingredients before cooking dinner." },
+      { id: 86, word: "promote", category: "verbs", ipa: "/prəˈməʊt/", chinese: "推廣 / 宣傳 / 提拔", animal: "Leo Lion 🦁", avatar: "lion", context: "Leo Lion creates posters to promote kindness among forest animals.", sentence: "The department created posters to promote workplace safety." },
+      { id: 87, word: "provide", category: "verbs", ipa: "/prəˈvaɪd/", chinese: "提供 / 供應", animal: "Toby Turtle 🐢", avatar: "turtle", context: "Toby Turtle provides shelter under his big shell during rain showers.", sentence: "The college provides free Wi-Fi and study rooms." },
+      { id: 88, word: "recruit", category: "verbs", ipa: "/rɪˈkruːt/", chinese: "招聘 / 招募", animal: "Rocky Raccoon 🦝", avatar: "racoon", context: "Rocky Raccoon wants to recruit new members for his forest cleanup crew.", sentence: "The company aims to recruit talented engineering graduates." }
+    ];
+
+    // ================= STATE MANAGEMENT =================
+    let currentCategory = 'all';
+    let searchQuery = '';
+    let leaderboardData = JSON.parse(localStorage.getItem('yc_anime_leaderboard')) || [
+      { name: "Ka Ho (YC CW)", score: 100, rank: "Master Bear Scholar 🐻", date: "2026-09-01" },
+      { name: "Wing Yan (YC ST)", score: 90, rank: "Wise Owl Expert 🦉", date: "2026-09-02" },
+      { name: "Siu Ming (YC KTL)", score: 80, rank: "Eager Bunny Learner 🐰", date: "2026-09-03" }
+    ];
+
+    // Quiz State
+    let quizQuestions = [];
+    let currentQIndex = 0;
+    let quizScore = 0;
+    let currentStudentName = "";
+
+    // Helper function to generate high-quality AI-style lovely cartoon animal SVGs
+    function getAnimalAvatarSvg(avatarType) {
+      const colors = {
+        bear: { bg1: "#FEF3C7", bg2: "#FDE68A", main: "#B45309", detail: "#78350F", accent: "#F43F5E" },
+        panda: { bg1: "#E0F2FE", bg2: "#BAE6FD", main: "#1E293B", detail: "#F8FAFC", accent: "#EC4899" },
+        fox: { bg1: "#FFEDD5", bg2: "#FED7AA", main: "#EA580C", detail: "#FFF7ED", accent: "#059669" },
+        owl: { bg1: "#F3E8FF", bg2: "#E9D5FF", main: "#7E22CE", detail: "#FAF5FF", accent: "#F59E0B" },
+        bunny: { bg1: "#FCE7F3", bg2: "#FBCFE8", main: "#DB2777", detail: "#FFF1F2", accent: "#10B981" },
+        penguin: { bg1: "#E0F2FE", bg2: "#93C5FD", main: "#0F172A", detail: "#FFFFFF", accent: "#EF4444" },
+        koala: { bg1: "#ECFDF5", bg2: "#A7F3D0", main: "#4B5563", detail: "#F3F4F6", accent: "#F43F5E" },
+        lion: { bg1: "#FEF3C7", bg2: "#FDE047", main: "#D97706", detail: "#78350F", accent: "#2563EB" },
+        puppy: { bg1: "#E0E7FF", bg2: "#C7D2FE", main: "#9A3412", detail: "#FEF3C7", accent: "#10B981" },
+        cat: { bg1: "#F5D0FE", bg2: "#F0ABFC", main: "#A21CAF", detail: "#FDF4FF", accent: "#F59E0B" },
+        monkey: { bg1: "#FFEDD5", bg2: "#FDBA74", main: "#92400E", detail: "#FED7AA", accent: "#10B981" },
+        elephant: { bg1: "#EDE9FE", bg2: "#DDD6FE", main: "#6D28D9", detail: "#F5F3FF", accent: "#EC4899" },
+        squirrel: { bg1: "#FFEDD5", bg2: "#FDBA74", main: "#C2410C", detail: "#FFF7ED", accent: "#0EA5E9" },
+        turtle: { bg1: "#D1FAE5", bg2: "#6EE7B7", main: "#047857", detail: "#ECFDF5", accent: "#F59E0B" },
+        bee: { bg1: "#FEF08A", bg2: "#FDE047", main: "#CA8A04", detail: "#1E293B", accent: "#38BDF8" },
+        frog: { bg1: "#DCFCE7", bg2: "#86EFAC", main: "#15803D", detail: "#F0FDF4", accent: "#F43F5E" },
+        piglet: { bg1: "#FFE4E6", bg2: "#FECDD3", main: "#E11D48", detail: "#FFF1F2", accent: "#3B82F6" },
+        hamster: { bg1: "#FEF3C7", bg2: "#FDE68A", main: "#D97706", detail: "#FFFBEB", accent: "#EC4899" },
+        giraffe: { bg1: "#FEF3C7", bg2: "#FDE047", main: "#B45309", detail: "#FFFBEB", accent: "#0284C7" },
+        racoon: { bg1: "#F1F5F9", bg2: "#CBD5E1", main: "#334155", detail: "#F8FAFC", accent: "#F59E0B" }
+      };
+
+      const c = colors[avatarType] || colors.bear;
+
+      return `
+        <svg class="w-full h-full" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg-${avatarType}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="${c.bg1}"/>
+              <stop offset="100%" stop-color="${c.bg2}"/>
+            </linearGradient>
+            <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+            </filter>
+          </defs>
+          <!-- Background -->
+          <rect width="200" height="160" fill="url(#bg-${avatarType})" />
+          <circle cx="170" cy="30" r="25" fill="#FFFFFF" opacity="0.25"/>
+          <circle cx="30" cy="130" r="35" fill="#FFFFFF" opacity="0.2"/>
+
+          <!-- Cute Animal Character Body -->
+          <g filter="url(#shadow)">
+            <!-- Ears -->
+            <circle cx="65" cy="55" r="22" fill="${c.main}"/>
+            <circle cx="65" cy="55" r="12" fill="${c.detail}"/>
+            <circle cx="135" cy="55" r="22" fill="${c.main}"/>
+            <circle cx="135" cy="55" r="12" fill="${c.detail}"/>
+
+            <!-- Head -->
+            <circle cx="100" cy="85" r="45" fill="${c.main}"/>
+            
+            <!-- Snout/Face patch -->
+            <ellipse cx="100" cy="95" rx="26" ry="20" fill="${c.detail}"/>
+
+            <!-- Eyes -->
+            <ellipse cx="84" cy="78" rx="6" ry="8" fill="#1E293B"/>
+            <ellipse cx="116" cy="78" rx="6" ry="8" fill="#1E293B"/>
+            <!-- Eye Highlights -->
+            <circle cx="82" cy="75" r="2.5" fill="#FFFFFF"/>
+            <circle cx="114" cy="75" r="2.5" fill="#FFFFFF"/>
+
+            <!-- Rosy Cheeks -->
+            <ellipse cx="73" cy="90" rx="7" ry="4" fill="#F43F5E" opacity="0.5"/>
+            <ellipse cx="127" cy="90" rx="7" ry="4" fill="#F43F5E" opacity="0.5"/>
+
+            <!-- Nose -->
+            <polygon points="100,90 94,84 106,84" fill="#1E293B" rx="2" ry="2"/>
+            
+            <!-- Smile -->
+            <path d="M 94 95 Q 100 102 106 95" stroke="#1E293B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+            <!-- Decorative Collar / Sparkle -->
+            <circle cx="100" cy="126" r="6" fill="${c.accent}"/>
+          </g>
+
+          <!-- Cute Sparkles -->
+          <path d="M 30 40 L 33 46 L 40 49 L 33 52 L 30 58 L 27 52 L 20 49 L 27 46 Z" fill="#FFFFFF" opacity="0.8"/>
+          <path d="M 165 110 L 167 114 L 172 116 L 167 118 L 165 122 L 163 118 L 158 116 L 163 114 Z" fill="#FFFFFF" opacity="0.8"/>
+        </svg>
+      `;
+    }
+
+    // ================= DOM LOAD & TAB SWITCHING =================
+    window.onload = function() {
+      renderCards();
+      renderLeaderboard();
+    };
+
+    function switchTab(tab) {
+      document.getElementById('section-study').classList.add('hidden');
+      document.getElementById('section-quiz').classList.add('hidden');
+      document.getElementById('section-leaderboard').classList.add('hidden');
+
+      document.getElementById('nav-study').className = "px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
+      document.getElementById('nav-quiz').className = "px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
+      document.getElementById('nav-leaderboard').className = "px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
+
+      if (tab === 'study') {
+        document.getElementById('section-study').classList.remove('hidden');
+        document.getElementById('nav-study').className = "px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2 bg-emerald-600 text-white shadow-sm";
+      } else if (tab === 'quiz') {
+        document.getElementById('section-quiz').classList.remove('hidden');
+        document.getElementById('nav-quiz').className = "px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2 bg-emerald-600 text-white shadow-sm";
+      } else if (tab === 'leaderboard') {
+        document.getElementById('section-leaderboard').classList.remove('hidden');
+        document.getElementById('nav-leaderboard').className = "px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2 bg-emerald-600 text-white shadow-sm";
+        renderLeaderboard();
+      }
+    }
+
+    // ================= FLASHCARD RENDERING =================
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if(btn.dataset.cat === cat) {
+          btn.className = "cat-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-900 text-white transition";
+        } else {
+          btn.className = "cat-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+        }
+      });
+      renderCards();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value.toLowerCase();
+      renderCards();
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('vocabCardsGrid');
+      grid.innerHTML = '';
+
+      const filtered = vocabularyData.filter(item => {
+        const matchesCategory = currentCategory === 'all' || item.category === currentCategory;
+        const matchesSearch = item.word.toLowerCase().includes(searchQuery) || item.chinese.includes(searchQuery);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400">
+            <i class="fa-solid fa-face-frown text-4xl mb-2"></i>
+            <p class="font-bold">No vocabulary words matched your search.</p>
+          </div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "anime-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between";
+
+        let catBadgeColor = "bg-blue-100 text-blue-700";
+        let catLabel = "Activity";
+        if (item.category === "people") { catBadgeColor = "bg-purple-100 text-purple-700"; catLabel = "People Phrase"; }
+        if (item.category === "verbs") { catBadgeColor = "bg-emerald-100 text-emerald-700"; catLabel = "Action Verb"; }
+
+        const avatarSvg = getAnimalAvatarSvg(item.avatar);
+
+        card.innerHTML = `
+          <div>
+            <!-- Image & Animal Companion Overlay -->
+            <div class="relative h-44 overflow-hidden bg-slate-100 flex items-center justify-center">
+              ${avatarSvg}
+              <span class="absolute top-3 left-3 text-[10px] uppercase font-black tracking-wider ${catBadgeColor} px-2.5 py-1 rounded-md shadow-sm">
+                ${catLabel}
+              </span>
+              <span class="absolute bottom-3 left-3 text-xs font-bold text-slate-800 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full shadow flex items-center gap-1.5">
+                🐾 ${item.animal}
+              </span>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-5 space-y-3">
+              <!-- Word & Pronunciation -->
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="text-xl font-black text-slate-900 tracking-tight">${item.word}</h3>
+                  <p class="text-xs font-mono text-slate-400 mt-0.5">${item.ipa}</p>
+                </div>
+                <button onclick="speakWord('${item.word}')" class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white transition flex items-center justify-center shadow-sm" title="Listen Pronunciation">
+                  <i class="fa-solid fa-volume-high text-sm"></i>
+                </button>
+              </div>
+
+              <!-- Chinese Meaning -->
+              <div class="bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
+                <span class="text-xs font-bold text-slate-400 uppercase block mb-0.5">Chinese Meaning</span>
+                <p class="text-sm font-bold text-emerald-900">${item.chinese}</p>
+              </div>
+
+              <!-- Animal Friend Visual Context -->
+              <div class="text-xs text-slate-600 bg-emerald-50/70 border border-emerald-100 rounded-lg p-2.5">
+                <span class="font-bold text-emerald-800">🐾 Animal Friend Story:</span> ${item.context}
+              </div>
+
+              <!-- Example Sentence -->
+              <div>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Workplace Example:</span>
+                <p class="text-xs text-slate-700 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100 leading-relaxed">
+                  "${item.sentence}"
+                </p>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Text to Speech
+    function speakWord(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported on this browser.");
+      }
+    }
+
+    // ================= QUIZ & GAME TEST LOGIC =================
+    function startQuiz() {
+      const nameInput = document.getElementById('studentNameInput').value.trim();
+      if (!nameInput) {
+        alert("Please enter your Student Name or ID to start the quiz!");
+        return;
+      }
+      currentStudentName = nameInput;
+      document.getElementById('quizStudentDisplay').innerText = `Student: ${currentStudentName}`;
+
+      // Generate 10 randomized quiz questions
+      const shuffled = [...vocabularyData].sort(() => 0.5 - Math.random());
+      quizQuestions = shuffled.slice(0, 10).map(item => {
+        // Create 3 distractors
+        const distractors = vocabularyData
+          .filter(v => v.id !== item.id)
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3)
+          .map(v => v.chinese);
+
+        const options = [...distractors, item.chinese].sort(() => 0.5 - Math.random());
+
+        return {
+          word: item.word,
+          correct: item.chinese,
+          options: options,
+          animal: item.animal,
+          sentence: item.sentence
+        };
+      });
+
+      currentQIndex = 0;
+      quizScore = 0;
+      document.getElementById('quizScore').innerText = '0';
+
+      document.getElementById('quiz-start-screen').classList.add('hidden');
+      document.getElementById('quiz-result-screen').classList.add('hidden');
+      document.getElementById('quiz-active-screen').classList.remove('hidden');
+
+      displayQuestion();
+    }
+
+    function displayQuestion() {
+      const q = quizQuestions[currentQIndex];
+      document.getElementById('question-tracker').innerText = `Question ${currentQIndex + 1} / 10`;
+      document.getElementById('quizProgressBar').style.width = `${((currentQIndex + 1) / 10) * 100}%`;
+      document.getElementById('quizAnimeTag').innerText = `🐾 ${q.animal} Story Scenario`;
+      
+      document.getElementById('quizQuestionText').innerHTML = `What is the correct Chinese meaning of the word: <span class="text-emerald-600 underline font-black font-sans">${q.word}</span>?`;
+
+      const optionsContainer = document.getElementById('quizOptionsContainer');
+      optionsContainer.innerHTML = '';
+      
+      const feedback = document.getElementById('quizFeedback');
+      feedback.className = "hidden p-4 rounded-xl border font-semibold text-sm";
+      document.getElementById('quizNextBtn').classList.add('hidden');
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "quiz-opt-btn w-full text-left p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 font-medium text-slate-800 transition flex items-center justify-between text-sm";
+        btn.innerHTML = `<span><strong class="mr-2 text-slate-400">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span>`;
+        btn.onclick = () => selectAnswer(btn, opt, q.correct, q.sentence);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(selectedBtn, selectedOpt, correctOpt, sentence) {
+      // Disable all option buttons
+      const buttons = document.querySelectorAll('.quiz-opt-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      const feedback = document.getElementById('quizFeedback');
+      feedback.classList.remove('hidden');
+
+      if (selectedOpt === correctOpt) {
+        quizScore += 10;
+        document.getElementById('quizScore').innerText = quizScore;
+        selectedBtn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 font-bold text-emerald-900 text-sm flex items-center justify-between";
+        selectedBtn.innerHTML += `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>`;
+        
+        feedback.className = "p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 text-xs sm:text-sm font-medium space-y-1";
+        feedback.innerHTML = `<p class="font-bold text-emerald-900"><i class="fa-solid fa-circle-check mr-1"></i> Correct! Excellent job!</p><p>Workplace Context: "${sentence}"</p>`;
+      } else {
+        selectedBtn.className = "w-full text-left p-4 rounded-xl border-2 border-red-500 bg-red-50 font-bold text-red-900 text-sm flex items-center justify-between";
+        selectedBtn.innerHTML += `<i class="fa-solid fa-circle-xmark text-red-600 text-lg"></i>`;
+
+        // Highlight correct option
+        buttons.forEach(btn => {
+          if (btn.innerText.includes(correctOpt)) {
+            btn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 font-bold text-emerald-900 text-sm flex items-center justify-between";
+          }
+        });
+
+        feedback.className = "p-4 rounded-xl border border-red-200 bg-red-50 text-red-800 text-xs sm:text-sm font-medium space-y-1";
+        feedback.innerHTML = `<p class="font-bold text-red-900"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Incorrect.</p><p>The correct answer is: <strong>${correctOpt}</strong>.</p>`;
+      }
+
+      document.getElementById('quizNextBtn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < 10) {
+        displayQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      document.getElementById('quiz-active-screen').classList.add('hidden');
+      document.getElementById('quiz-result-screen').classList.remove('hidden');
+
+      let rank = "Cute Animal Friend 🐾";
+      let badge = "⭐";
+      if (quizScore >= 90) {
+        rank = "Master Bear Scholar 🐻";
+        badge = "👑";
+      } else if (quizScore >= 70) {
+        rank = "Wise Owl Expert 🦉";
+        badge = "🏆";
+      } else if (quizScore >= 50) {
+        rank = "Eager Bunny Learner 🐰";
+        badge = "🌟";
+      }
+
+      document.getElementById('resultBadge').innerText = badge;
+      document.getElementById('finalScoreDisplay').innerText = `${quizScore} / 100`;
+      document.getElementById('finalRankDisplay').innerText = rank;
+
+      // Save to local storage leaderboard
+      const today = new Date().toISOString().split('T')[0];
+      leaderboardData.push({
+        name: currentStudentName,
+        score: quizScore,
+        rank: rank,
+        date: today
+      });
+
+      // Sort leaderboard descending by score
+      leaderboardData.sort((a, b) => b.score - a.score);
+      localStorage.setItem('yc_anime_leaderboard', JSON.stringify(leaderboardData));
+    }
+
+    function resetQuiz() {
+      document.getElementById('quiz-result-screen').classList.add('hidden');
+      document.getElementById('quiz-start-screen').classList.remove('hidden');
+    }
+
+    // ================= LEADERBOARD LOGIC =================
+    function renderLeaderboard() {
+      const tbody = document.getElementById('leaderboardBody');
+      tbody.innerHTML = '';
+
+      if (leaderboardData.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400">No test results recorded yet. Take the test!</td></tr>`;
+        return;
+      }
+
+      leaderboardData.forEach((entry, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+
+        let rankBadgeClass = "text-slate-500 font-bold";
+        if (idx === 0) rankBadgeClass = "text-amber-600 font-extrabold flex items-center gap-1";
+        if (idx === 1) rankBadgeClass = "text-slate-400 font-extrabold flex items-center gap-1";
+        if (idx === 2) rankBadgeClass = "text-amber-700 font-extrabold flex items-center gap-1";
+
+        tr.innerHTML = `
+          <td class="py-3 px-4 ${rankBadgeClass}">
+            ${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`}
+          </td>
+          <td class="py-3 px-4 font-bold text-slate-900">${entry.name}</td>
+          <td class="py-3 px-4"><span class="bg-emerald-50 text-emerald-700 font-black px-2.5 py-1 rounded-md">${entry.score} pts</span></td>
+          <td class="py-3 px-4"><span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded font-semibold">${entry.rank}</span></td>
+          <td class="py-3 px-4 text-xs text-slate-400">${entry.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearLeaderboard() {
+      if (confirm("Are you sure you want to clear local leaderboard scores?")) {
+        leaderboardData = [];
+        localStorage.removeItem('yc_anime_leaderboard');
+        renderLeaderboard();
+      }
+    }
+  </script>
+</body>
+</html>
